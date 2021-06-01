@@ -1,0 +1,14 @@
+- name: 删除老备份
+  shell: rm -rf {{ deploy_bak_path }}/*
+  ignore_errors: True
+
+- name: 创建备份目录
+  file:
+    path: "{{ deploy_bak_path }}"
+    state: directory
+    mode: 0755
+  register: bak_dir_result
+
+- name: war包备份
+  shell: cp "{{ deploy_file_workpath }}"/*.war "{{ deploy_bak_path }}"
+  ignore_errors: True

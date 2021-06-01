@@ -1,0 +1,4 @@
+- hosts: all
+  remote_user: root
+  roles:
+  - {role: tomcat,deploy_file: "/opt/ansible-playbook/deploy_tomcat/tomcat/files/blog.war"}

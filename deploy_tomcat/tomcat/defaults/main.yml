@@ -1,0 +1,23 @@
+---
+# defaults file for tomcat
+
+# 发布的代码文件，包含绝对路径，如:/tmp/test.war
+deploy_file: ""
+
+# tomcat服务的端口
+deploy_service_port: "8080"
+
+# 发布服务的家目录
+deploy_file_workpath: "/home/tomcat/tomcat/webapps/"
+
+# 启动脚本
+deploy_service_start_script: su - tomcat -c "/home/tomcat/tomcat/bin/startup.sh"
+
+# 停止脚本
+deploy_service_stop_script: killall java
+
+# 备份目录
+deploy_bak_path: "/tmp/bak_packages"
+
+# 是否回滚
+deploy_rollback: false

@@ -1,0 +1,22 @@
+- name: 停止tomcat
+  shell: "{{ deploy_service_stop_script }}"
+  ignore_errors: True
+  register: stop_status
+
+- name: check | 应用程序是否启动
+  shell: ps -ef |grep tomcat |grep -v grep |wc -l
+  register: run_status
+  failed_when: run_status.stdout == "1"
+
+- name: 删除老的war包
+  shell: cd {{ deploy_file_workpath }};rm -rf *
+  ignore_errors: True
+
+- name: copy新war包过去
+  copy: src={{deploy_file}} dest={{ deploy_file_workpath }} mode=0755 owner=tomcat group=tomcat
+  register: copy_war_result
+
+- name: 启动tomcat
+  shell: "{{ deploy_service_start_script }}"
+
+

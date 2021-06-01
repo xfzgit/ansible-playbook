@@ -1,0 +1,21 @@
+---
+# author: XuFei
+
+- name: check | 发布文件是否存在
+  shell: "ls {{ deploy_file }}"
+  connection: local
+  register: deploy_file_stats
+  changed_when: false
+#  ignore_errors: True
+  failed_when: deploy_file_stats.stdout_lines[0] == "" or deploy_file == ""
+
+- name: check | 目标应用服务的家目录是否存在
+  stat: path={{ deploy_file_workpath }}
+  register: deploy_service_work_result
+#  ignore_errors: True
+  failed_when: not deploy_service_work_result.stat.exists
+
+- name: check | 应用程序是否启动
+  shell: ps -ef |grep tomcat |grep -v grep |wc -l
+  register: run_status
+  failed_when: run_status.stdout == "0"
